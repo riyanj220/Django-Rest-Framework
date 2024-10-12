@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import generics , mixins
+from rest_framework import generics , mixins , permissions , authentication
 from .models import Product
 from .serializers import ProductSerializer
 
@@ -10,7 +10,8 @@ from django.shortcuts import get_object_or_404
 class ProductCreateAPIView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes =[permissions.DjangoModelPermissions]
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
@@ -20,7 +21,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
+    
 class ProductUpdateAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
