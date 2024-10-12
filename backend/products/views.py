@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics , mixins
 from .models import Product
 from .serializers import ProductSerializer
 
@@ -41,6 +41,27 @@ class ProductDeleteAPIView(generics.DestroyAPIView):
     def perform_delete(self,instance):
         super().perform_delete(instance)
 
+
+class ProductMixinView(mixins.ListModelMixin,
+                       mixins.RetrieveModelMixin, 
+                       generics.GenericAPIView,
+                       mixins.CreateModelMixin):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def get(self,request,*args, **kwargs):
+        print(args,kwargs)
+        pk = kwargs.get('pk')
+
+        if pk is not None:
+            return self.retrieve(request,*args, **kwargs)
+
+        return self.list(request,*args, **kwargs)
+
+    def post(self, request,*args, **kwargs):
+        return self.create(request,*args, **kwargs)
 
 @api_view(["GET","POST"])
 def product_alt_view(request, pk = None,*args, **kwargs):
