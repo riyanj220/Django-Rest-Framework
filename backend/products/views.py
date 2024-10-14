@@ -1,38 +1,45 @@
 from rest_framework.response import Response
-from rest_framework import generics , mixins , permissions , authentication
+from rest_framework import generics , mixins   #authentication , permissions
 from .models import Product
 from .serializers import ProductSerializer
 
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 
-from .permissions import IsStaffEditorPermissions
+# from api.permissions import IsStaffEditorPermissions
 
-from api.authentication import TokenAuthentication
-class ProductCreateAPIView(generics.CreateAPIView):
+# from api.authentication import TokenAuthentication
+
+from api.mixins import StaffEditorPermissionsMixins
+
+class ProductCreateAPIView(StaffEditorPermissionsMixins,generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # authentication_classes = [authentication.SessionAuthentication,
-    #                           authentication.TokenAuthentication] since we already defined the default in settings
-    permission_classes =[IsStaffEditorPermissions]
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+    ''' authentication_classes = [authentication.SessionAuthentication,
+                               authentication.TokenAuthentication] 
+                               since we already defined this default in settings
+
+    permission_classes =[IsStaffEditorPermissions] 
+                        since we created custom mixins and included that in our view
+    '''
+class ProductDetailAPIView(StaffEditorPermissionsMixins,generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes =[IsStaffEditorPermissions]
+    # permission_classes =[IsStaffEditorPermissions]
 
-class ProductListCreateAPIView(generics.ListCreateAPIView):
+class ProductListCreateAPIView(StaffEditorPermissionsMixins,generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # authentication_classes = [authentication.SessionAuthentication,
     #                           TokenAuthentication]
-    permission_classes =[IsStaffEditorPermissions]
+    # permission_classes =[IsStaffEditorPermissions]
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(StaffEditorPermissionsMixins,generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes =[IsStaffEditorPermissions]
+    # permission_classes =[IsStaffEditorPermissions]
 
     def perform_update(self,serializer):
         instance = serializer.save()
@@ -41,12 +48,12 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
             instance.content = instance.title
 
 
-class ProductDeleteAPIView(generics.DestroyAPIView):
+class ProductDeleteAPIView(StaffEditorPermissionsMixins,generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes =[IsStaffEditorPermissions]
-    
+    # permission_classes =[IsStaffEditorPermissions]
+
     def perform_delete(self,instance):
         super().perform_delete(instance)
 
