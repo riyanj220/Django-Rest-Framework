@@ -12,26 +12,27 @@ from api.authentication import TokenAuthentication
 class ProductCreateAPIView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication,
-                              authentication.TokenAuthentication]
+    # authentication_classes = [authentication.SessionAuthentication,
+    #                           authentication.TokenAuthentication] since we already defined the default in settings
     permission_classes =[IsStaffEditorPermissions]
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
+    permission_classes =[IsStaffEditorPermissions]
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication,
-                              TokenAuthentication]
+    # authentication_classes = [authentication.SessionAuthentication,
+    #                           TokenAuthentication]
     permission_classes =[IsStaffEditorPermissions]
 
 class ProductUpdateAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+    permission_classes =[IsStaffEditorPermissions]
 
     def perform_update(self,serializer):
         instance = serializer.save()
@@ -44,7 +45,8 @@ class ProductDeleteAPIView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-
+    permission_classes =[IsStaffEditorPermissions]
+    
     def perform_delete(self,instance):
         super().perform_delete(instance)
 
