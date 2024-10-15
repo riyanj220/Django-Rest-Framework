@@ -35,6 +35,18 @@ class ProductListCreateAPIView(StaffEditorPermissionsMixins,generics.ListCreateA
     #                           TokenAuthentication]
     # permission_classes =[IsStaffEditorPermissions]
 
+    def perform_create(self, serializer):
+        # email = serializer.validated_data.pop('email')
+        # print(email)
+        title = serializer.validated_data.pop('title')
+        content = serializer.validated_data.pop('content') or None
+
+        if content is None:
+            content = title
+
+        serializer.save(content = content) # its like form.save() 
+
+
 class ProductUpdateAPIView(StaffEditorPermissionsMixins,generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
