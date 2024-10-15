@@ -10,7 +10,7 @@ urlpatterns = [
 
 
     path('<int:pk>/update',ProductUpdateAPIView.as_view(),name= 'product-edit'),
-    path('<int:pk>/delete',ProductDeleteAPIView.as_view(),name= 'product_detail_api_view'),
+    path('<int:pk>/delete',ProductDeleteAPIView.as_view(),name= 'product-delete'),
 
 
     path('list/',ProductListCreateAPIView.as_view(),name= 'product-list'),
