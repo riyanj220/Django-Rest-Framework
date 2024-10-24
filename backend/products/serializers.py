@@ -7,7 +7,7 @@ from api.serializers import UserPublicSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     owner = UserPublicSerializer(source = 'user', read_only=True)
-    my_discount = serializers.SerializerMethodField(read_only=True)
+    # my_discount = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField(read_only=True)
 
     url = serializers.HyperlinkedIdentityField(
@@ -31,7 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'content',
             'price',
             'sale_price',
-            'my_discount',
+            # 'my_discount',
         ]
     
     # A custom serilizer way to validate the data being posted
@@ -63,8 +63,8 @@ class ProductSerializer(serializers.ModelSerializer):
             return None
         return reverse("product-edit" , kwargs = {"pk":obj.pk},request = request)
     
-    def get_my_discount(self,obj):
-        try:
-            return obj.get_discount()
-        except:
-            return None
+    # def get_my_discount(self,obj):
+    #     try:
+    #         return obj.get_discount()
+    #     except:
+    #         return None
