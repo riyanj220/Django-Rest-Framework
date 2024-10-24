@@ -44,6 +44,7 @@ EXTERNAL_APPS = [
     'rest_framework.authtoken',
     'api',
     'products',
+    'search',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
