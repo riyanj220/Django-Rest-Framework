@@ -45,6 +45,7 @@ EXTERNAL_APPS = [
     'api',
     'products',
     'search',
+    'algoliasearch_django',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
@@ -155,3 +156,16 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS":"rest_framework.pagination.LimitOffsetPagination" ,
     "PAGE_SIZE":10
 }
+
+
+ALGOLIA = {
+    'APPLICATION_ID': 'KZF6TKL69O',
+    'API_KEY': '2a66eaae724c1a08e0189fa0de2078b1',
+    'INDEX_PREFIX':'cfe'
+}
+
+# ALGOLIA = {
+#   'APPLICATION_ID': 'KZF6TKL69O',
+#   'API_KEY': '3564646201b0dd359a76b31833a22553',
+  
+# }
