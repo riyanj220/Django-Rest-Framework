@@ -163,9 +163,3 @@ ALGOLIA = {
     'API_KEY': '2a66eaae724c1a08e0189fa0de2078b1',
     'INDEX_PREFIX':'cfe'
 }
-
-# ALGOLIA = {
-#   'APPLICATION_ID': 'KZF6TKL69O',
-#   'API_KEY': '3564646201b0dd359a76b31833a22553',
-  
-# }
