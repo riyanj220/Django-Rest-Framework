@@ -8,31 +8,33 @@ from api.serializers import UserPublicSerializer
 class ProductSerializer(serializers.ModelSerializer):
     owner = UserPublicSerializer(source = 'user', read_only=True)
     # my_discount = serializers.SerializerMethodField(read_only=True)
-    edit_url = serializers.SerializerMethodField(read_only=True)
+    # edit_url = serializers.SerializerMethodField(read_only=True)
 
-    url = serializers.HyperlinkedIdentityField(
-        view_name = 'product-detail',
-        lookup_field = 'pk'
-        )
+    # url = serializers.HyperlinkedIdentityField(
+    #     view_name = 'product-detail',
+    #     lookup_field = 'pk'
+    #     )
 
     title = serializers.CharField(validators = [validate_title])
-
+    body = serializers.CharField(source = 'content')
     # email = serializers.EmailField(write_only=True)                                                                                                    
     class Meta:
         model = Product
 
         fields = [
             'owner',
-            'url',
-            'edit_url',
+            # 'url',
+            # 'edit_url',
             # 'email',
             'pk',
             'title',
-            'content',
+            'body',
             'price',
             'sale_price',
             # 'my_discount',
             'public',
+            'path',
+            'endpoint',
         ]
     
     # A custom serilizer way to validate the data being posted
