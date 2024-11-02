@@ -46,6 +46,7 @@ EXTERNAL_APPS = [
     'products',
     'search',
     'algoliasearch_django',
+    'rest_framework_simplejwt',
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
@@ -147,7 +148,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [ 
         "rest_framework.authentication.SessionAuthentication",
-        "api.authentication.TokenAuthentication"],
+        "api.authentication.TokenAuthentication",
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
 
     'DEFAULT_PERMISSION_CLASSES': [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
@@ -162,4 +165,12 @@ ALGOLIA = {
     'APPLICATION_ID': 'KZF6TKL69O',
     'API_KEY': '2a66eaae724c1a08e0189fa0de2078b1',
     'INDEX_PREFIX':'cfe'
+}
+
+import datetime
+SIMPLE_JWT = {
+    "AUTH_HEADERS_TYPE": ['Bearer'],
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+    "REFRESH_TOKEN_LIFETIME":  datetime.timedelta(minutes=1),
+
 }
