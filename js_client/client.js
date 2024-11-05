@@ -14,12 +14,11 @@ function handleLogin(event) {
     let loginFormData = new FormData(loginform)
     let loginObjectData = Object.fromEntries(loginFormData)
     let bodyStr = JSON.stringify(loginObjectData)
-    console.log(loginObjectData , bodyStr)
 
     const options = {
         method : "POST",
-        headers : {
-            "ContentType" : "applicaation/json"
+        headers: {
+            "Content-Type": "application/json"  // Fixed the typo here
         },
         body: bodyStr
     }
