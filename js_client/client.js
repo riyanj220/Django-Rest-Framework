@@ -1,9 +1,16 @@
 const contentContainer = document.getElementById('content-container')
 
 const loginform = document.getElementById('login-form');
+const searchform = document.getElementById('search-form');
+
 const baseEndpoint = "http://localhost:8000/api";
+
 if (loginform) {
     loginform.addEventListener('submit', handleLogin);
+}
+
+if (searchform) {
+    searchform.addEventListener('submit', handleSearch);
 }
 
 function handleLogin(event) {
@@ -26,6 +33,38 @@ function handleLogin(event) {
         .then(response => response.json())  // Call .json() to parse the response
         .then(authData=>{
             handleAuthData(authData , getProductList)})
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+function handleSearch(event) {
+    event.preventDefault();
+
+    let formData = new FormData(searchform);
+    let data = Object.fromEntries(formData);
+    let searchParams = new URLSearchParams(data)
+
+    const endpoint = `${baseEndpoint}/search/?${searchParams}`; // Fixed string interpolation
+
+    const headers = {
+        "Content-Type": "application/json", 
+    }
+    const authToken = localStorage.getItem('access')
+    if(authToken){
+        headers['Authorization'] = `Bearer ${authToken}`
+    } 
+
+    const options = {
+        method: "GET",
+        headers: headers,
+    };
+
+    fetch(endpoint, options)
+        .then(response => response.json())  // Call .json() to parse the response
+        .then(data=>{
+            writeToContainer(data)
+        })
         .catch(err => {
             console.log(err);
         });
