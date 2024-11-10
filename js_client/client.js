@@ -124,3 +124,34 @@ function getProductList(){
     })
 }
 getProductList()
+
+const searchClient = algoliasearch('KZF6TKL69O', '3564646201b0dd359a76b31833a22553');
+
+const search = instantsearch({
+  indexName: 'cfe_Product',
+  searchClient,
+});
+
+search.addWidgets([
+  instantsearch.widgets.searchBox({
+    container: '#searchbox',
+  }),
+
+  instantsearch.widgets.clearRefinements({
+    container:"#clear-refinemets",
+  }),
+
+  instantsearch.widgets.refinementList({
+    container:"#user-list",
+    attribute: 'user'
+  }),
+
+  instantsearch.widgets.hits({
+    container: '#hits',
+    templates: {
+        item: `<div>{{title}}<p>{{user}}</p><p>\${{price}}</p></div>`
+    }
+  })
+]);
+
+search.start();
